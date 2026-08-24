@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desafio de criptografia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,500;0,600;1,400&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <p class="kicker" id="headerKicker">Projeto acadêmico · criptografia simétrica</p>
+        <h1 id="headerTitle">Desafio de criptografia</h1>
+      </div>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">
+          Modo escuro
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <div class="mode-switch" role="tablist" aria-label="Selecionar modo">
+        <button id="challengeTab" class="mode-btn active" type="button">Modo desafio</button>
+        <button id="explainTab" class="mode-btn" type="button">Modo explicação</button>
+      </div>
+    </section>
+
+    <section id="challengeMode" class="mode-section">
+      <div class="section-heading">
+        <div>
+          <h2>Modo desafio</h2>
+          <p class="section-description">
+            O texto e a chave ficam ocultos. Depois da criptografia, a tela
+            mostra somente o resultado.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid two-cols">
+        <article class="panel">
+          <h3>Criptografar</h3>
+
+          <label for="challengePlain">Texto secreto</label>
+          <div class="secret-wrapper">
+            <input
+              id="challengePlain"
+              type="password"
+              placeholder="Digite a palavra ou frase"
+              autocomplete="off"
+            />
+            <button class="icon-btn" id="toggleChallengePlain" type="button" aria-label="Mostrar ou esconder texto">Mostrar</button>
+          </div>
+
+          <label for="challengeKey">Chave secreta (3 letras)</label>
+          <div class="input-row">
+            <div class="secret-wrapper grow">
+              <input
+                id="challengeKey"
+                type="password"
+                maxlength="3"
+                placeholder="Ex.: AGT"
+                autocomplete="off"
+              />
+              <button class="icon-btn" id="toggleChallengeKey" type="button" aria-label="Mostrar ou esconder chave">Mostrar</button>
+            </div>
+            <button class="secondary-btn" id="randomChallengeKey" type="button">Gerar chave</button>
+          </div>
+
+          <button class="primary-btn full" id="challengeEncryptBtn" type="button">
+            Criptografar
+          </button>
+
+          <div id="challengeEncryptMessage" class="message-box hidden"></div>
+        </article>
+
+        <article class="panel result-panel">
+          <h3>Texto criptografado</h3>
+          <div id="challengeCipher" class="cipher-display">—</div>
+
+          <div class="challenge-actions">
+            <button class="secondary-btn" id="copyChallengeCipher" type="button" disabled>Copiar</button>
+            <button class="primary-btn" id="challengeDecryptBtn" type="button" disabled>
+              Descriptografar
+            </button>
+          </div>
+
+          <div id="challengeReveal" class="reveal-card hidden">
+            <span>Texto recuperado</span>
+            <strong id="challengeRecovered">—</strong>
+          </div>
+        </article>
+      </div>
+
+      <p class="note">
+        Na apresentação, criptografe com os campos ocultos e mostre só o resultado.
+        Depois das tentativas da turma, use “Descriptografar”.
+      </p>
+    </section>
+
+    <section id="explainMode" class="mode-section hidden">
+      <div class="section-heading">
+        <div>
+          <h2>Modo explicação</h2>
+          <p class="section-description">
+            A VHX parte da Cifra de Vigenère e acrescenta duas regras: a chave
+            de três letras alterna entre a forma normal e a invertida a cada bloco,
+            e cada bloco é invertido depois do cálculo.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid two-cols">
+        <article class="panel">
+          <h3>Entrada</h3>
+
+          <label for="explainPlain">Texto</label>
+          <input id="explainPlain" type="text" placeholder="Ex.: ATAQUE" />
+
+          <label for="explainKey">Chave de 3 letras</label>
+          <div class="input-row">
+            <input id="explainKey" class="grow" type="text" maxlength="3" placeholder="Ex.: AGT" />
+            <button class="secondary-btn" id="randomExplainKey" type="button">Gerar chave</button>
+          </div>
+
+          <div class="formula-card">
+            <p><strong>Criptografia:</strong> C = (P + K) mod 26</p>
+            <p><strong>Descriptografia:</strong> P = (C - K) mod 26</p>
+            <p>A = 0, B = 1, …, Z = 25</p>
+          </div>
+
+          <button class="primary-btn full" id="explainEncryptBtn" type="button">
+            Executar criptografia
+          </button>
+
+          <div id="explainMessage" class="message-box hidden"></div>
+        </article>
+
+        <article class="panel">
+          <h3>Ordem das operações</h3>
+          <ol class="flow">
+            <li>Normalizar o texto para A–Z</li>
+            <li>Dividir em blocos de 3 letras</li>
+            <li>Aplicar Vigenère com chave normal ou invertida</li>
+            <li>Inverter as letras de cada bloco</li>
+            <li>Unir os blocos no texto cifrado</li>
+          </ol>
+        </article>
+      </div>
+
+      <section id="explainResults" class="explain-results hidden">
+        <article class="panel">
+          <div class="panel-title-row">
+            <div>
+              <h3>Criptografia</h3>
+              <p class="section-description">Passos gerais e o cálculo de cada letra.</p>
+            </div>
+            <div class="result-chip">
+              <span>Resultado</span>
+              <strong id="explainCipherResult">—</strong>
+            </div>
+          </div>
+          <p id="encryptAlphabet" class="alphabet-map"></p>
+          <div id="encryptSteps" class="steps-list"></div>
+          <div id="encryptCalcs" class="calcs-list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title-row">
+            <div>
+              <h3>Descriptografia</h3>
+              <p class="section-description">Caminho inverso, com a mesma conta ao contrário.</p>
+            </div>
+            <button class="primary-btn" id="explainDecryptBtn" type="button">
+              Mostrar descriptografia
+            </button>
+          </div>
+
+          <div id="decryptPlaceholder" class="placeholder-card">
+            Depois da criptografia, use o botão acima para ver o cálculo inverso.
+          </div>
+
+          <div id="decryptContent" class="hidden">
+            <div class="result-chip standalone">
+              <span>Texto recuperado</span>
+              <strong id="explainRecoveredResult">—</strong>
+            </div>
+            <div id="decryptSteps" class="steps-list"></div>
+            <div id="decryptCalcs" class="calcs-list"></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel theory-panel">
+        <h3>Vigenère tradicional e VHX</h3>
+
+        <div class="comparison-grid">
+          <div>
+            <h4>Vigenère tradicional</h4>
+            <ul>
+              <li>A chave se repete sempre na mesma ordem.</li>
+              <li>As letras permanecem na mesma posição.</li>
+              <li>Exemplo: AGTAGTAG…</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>VHX</h4>
+            <ul>
+              <li>A chave alterna entre normal e invertida a cada bloco.</li>
+              <li>O resultado de cada bloco é invertido.</li>
+              <li>Exemplo: AGT | TGA | AGT | TGA</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="academic-note">
+          A VHX foi feita para demonstração em sala. Para proteger dados reais,
+          use algoritmos modernos, como AES.
+        </p>
+      </section>
+    </section>
+  </main>
+
+  <footer id="pageFooter">
+    Projeto acadêmico de criptografia simétrica · Kethelen Parra e Gisele Veloso
+  </footer>
+
+  <div id="processOverlay" class="process-overlay hidden" aria-live="polite" aria-busy="false">
+    <div class="process-card" role="status">
+      <p class="process-kicker" id="processKicker">Operação em andamento</p>
+      <h2 id="processTitle">Processando</h2>
+      <ol class="process-steps" id="processSteps"></ol>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
