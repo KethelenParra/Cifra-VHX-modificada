@@ -1,3 +1,11 @@
+/**
+ * Modo desafio.
+ *
+ * Mostra só o texto cifrado. A chave e as contas não aparecem nesta tela.
+ * O texto original some do campo depois de criptografar, para a apresentação
+ * em sala não revelar a mensagem.
+ */
+
 import { apiRequest } from "./api.js";
 import { withProcessOverlay } from "./overlay.js";
 import { clearMessage, setMessage, toggleInputVisibility, validateText } from "./dom.js";
@@ -14,6 +22,7 @@ const CHALLENGE_DECRYPT_PROCESS = [
   "Montando o resultado",
 ];
 
+/** Guarda o último cifrado desta sessão (não fica visível no campo de entrada). */
 const state = {
   cipher: "",
 };

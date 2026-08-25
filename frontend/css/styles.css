@@ -1,3 +1,10 @@
+/*
+  Estilos da Cifra VHX.
+  Cores vêm de variáveis CSS (--bg, --ink, --accent…) para o tema
+  claro e o tema escuro usarem o mesmo layout.
+*/
+
+/* ---------- Tema claro / escuro ---------- */
 :root,
 [data-theme="light"] {
   --bg: #f3efe6;
@@ -37,6 +44,7 @@
   color-scheme: dark;
 }
 
+/* ---------- Base da página ---------- */
 * {
   box-sizing: border-box;
 }
@@ -102,6 +110,7 @@ h4 {
   margin-bottom: 8px;
 }
 
+/* ---------- Cabeçalho e layout ---------- */
 .topbar {
   border-bottom: 1px solid var(--line);
   background: var(--paper);
@@ -182,6 +191,7 @@ footer {
   line-height: 1.7;
 }
 
+/* ---------- Abas (desafio / explicação) ---------- */
 .mode-switch {
   display: inline-flex;
   margin-top: 8px;
@@ -224,6 +234,7 @@ footer {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* ---------- Painéis, formulários e botões ---------- */
 .panel,
 .note {
   border: 1px solid var(--line);
@@ -331,6 +342,7 @@ button:disabled {
   margin-top: 18px;
 }
 
+/* ---------- Modo desafio: cifrado e texto recuperado ---------- */
 .result-panel {
   display: flex;
   flex-direction: column;
@@ -395,6 +407,7 @@ button:disabled {
   padding: 14px 16px;
 }
 
+/* ---------- Modo explicação: fórmulas, passos e tabelas ---------- */
 .formula-card {
   margin-top: 16px;
   padding: 12px 14px;
@@ -591,6 +604,7 @@ table.calc-table {
   border: 1px solid var(--line);
 }
 
+/* ---------- Utilitário e rodapé ---------- */
 .hidden {
   display: none !important;
 }
@@ -602,6 +616,7 @@ footer {
   font-size: 0.9rem;
 }
 
+/* ---------- Overlay de processamento ---------- */
 .process-overlay {
   position: fixed;
   inset: 0;
@@ -676,6 +691,7 @@ footer {
   border-color: var(--success);
 }
 
+/* ---------- Layout em telas estreitas ---------- */
 @media (max-width: 800px) {
   .topbar-inner,
   .panel-title-row {

@@ -1,8 +1,19 @@
+"""
+Cifra de Vigenère (versão clássica, módulo 26).
+
+Criptografia:  C = (P + K) mod 26
+Descriptografia: P = (C - K) mod 26
+
+P é a letra do texto, K é a letra correspondente da chave montada
+(SOL / LOS). Cada letra gera uma linha de conta para a tela.
+"""
+
 from backend.model.esquemas import ContaLetra
 from .alfabeto import indice, letra_do_indice
 
 
-def criptografar_letra(letra, letra_chave):
+def criptografar_letra(letra: str, letra_chave: str) -> ContaLetra:
+    """Soma uma letra do texto com uma letra da chave."""
     p = indice(letra)
     k = indice(letra_chave)
     c = (p + k) % 26
@@ -18,7 +29,8 @@ def criptografar_letra(letra, letra_chave):
     )
 
 
-def descriptografar_letra(letra, letra_chave):
+def descriptografar_letra(letra: str, letra_chave: str) -> ContaLetra:
+    """Subtrai a letra da chave para recuperar o texto original."""
     c = indice(letra)
     k = indice(letra_chave)
     p = (c - k) % 26
@@ -34,7 +46,8 @@ def descriptografar_letra(letra, letra_chave):
     )
 
 
-def criptografar_vigenere(texto, chave_montada):
+def criptografar_vigenere(texto: str, chave_montada: str):
+    """Aplica a Vigenère em todo o texto, letra a letra."""
     contas = [
         criptografar_letra(letra, k)
         for letra, k in zip(texto, chave_montada)
@@ -43,7 +56,8 @@ def criptografar_vigenere(texto, chave_montada):
     return saida, contas
 
 
-def descriptografar_vigenere(texto, chave_montada):
+def descriptografar_vigenere(texto: str, chave_montada: str):
+    """Desfaz a Vigenère em todo o texto, letra a letra."""
     contas = [
         descriptografar_letra(letra, k)
         for letra, k in zip(texto, chave_montada)

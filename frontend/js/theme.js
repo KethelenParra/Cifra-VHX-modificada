@@ -1,3 +1,9 @@
+/**
+ * Tema claro / escuro.
+ *
+ * A preferência fica em localStorage para sobreviver ao recarregar a página.
+ */
+
 const THEME_KEY = "vhx-theme";
 
 function currentTheme() {

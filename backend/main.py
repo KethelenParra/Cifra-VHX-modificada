@@ -1,3 +1,10 @@
+"""
+Ponto de entrada da aplicação.
+
+Sobe a API FastAPI, libera CORS para o frontend local e serve os
+arquivos estáticos da pasta frontend na raiz do site.
+"""
+
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -11,6 +18,8 @@ app = FastAPI(
     description="Vigenère + inversão de blocos + Hill",
     version="2.0.0",
 )
+
+# Em trabalho acadêmico local, qualquer origem pode chamar a API.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,7 +27,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Endpoints JSON ficam em /api (health, encrypt, decrypt).
 app.include_router(rotas, prefix="/api")
 
+# O restante das URLs entrega o site (HTML, CSS e JavaScript).
 pasta_frontend = Path(__file__).resolve().parent.parent / "frontend"
 app.mount("/", StaticFiles(directory=str(pasta_frontend), html=True), name="frontend")

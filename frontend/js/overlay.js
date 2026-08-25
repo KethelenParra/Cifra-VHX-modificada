@@ -1,7 +1,18 @@
+/**
+ * Overlay de “processando”.
+ *
+ * Enquanto a API responde, a tela mostra as etapas da operação.
+ * A animação e a chamada HTTP correm juntas; o resultado só volta
+ * quando as duas terminam.
+ */
+
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/**
+ * @param {{ title: string, steps: string[], work: () => Promise<any> }} options
+ */
 export async function withProcessOverlay({ title, steps, work }) {
   const overlay = document.getElementById("processOverlay");
   const titleEl = document.getElementById("processTitle");
