@@ -5,7 +5,5 @@ Cada módulo trata uma etapa:
 - alfabeto: conversão letra ↔ número (A=0 … Z=25)
 - blocos: montagem da chave SOL/LOS e inversão de 3 em 3
 - vigenere: soma e subtração modular
-- preenchimento: letra X para a Hill trabalhar em pares
-- hill: multiplicação matricial mod 26
 - cifra: orquestra as etapas na ordem correta
 """

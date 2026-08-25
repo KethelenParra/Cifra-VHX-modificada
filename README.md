@@ -1,6 +1,6 @@
 # Cifra VHX
 
-Projeto acadêmico de criptografia simétrica: Vigenère com chave alternada, inversão de blocos e cifra de Hill.
+Projeto acadêmico de criptografia simétrica: Vigenère com chave alternada e inversão de blocos.
 
 ## Tecnologias
 
@@ -15,7 +15,7 @@ vhx_project/
     main.py           # sobe a API e o site
     api/              # rotas HTTP
     model/            # formatos de entrada e saída
-    service/          # regra da cifra (Vigenère, blocos, Hill)
+    service/          # regra da cifra (Vigenère, blocos)
   frontend/
     index.html
     css/
@@ -35,24 +35,17 @@ Dividir em blocos de 3
  ↓
 Inverter cada bloco
  ↓
-Dividir em pares (acrescentar X se for ímpar)
- ↓
-Hill
- ↓
 TEXTO CIFRADO
 ```
 
 1. Normaliza o texto para `A-Z`.
 2. Monta a chave no tamanho da mensagem: `SOL`, depois `LOS`, depois `SOL`...
 3. Aplica Vigenère: `C = (P + K) mod 26`.
-4. Divide em blocos de 3 e inverte cada bloco.
-5. Se o comprimento for ímpar, acrescenta `X`.
-6. Divide em pares e aplica Hill com a matriz:
+4. Divide em blocos de 3 e inverte cada bloco — essa é a etapa final.
 
-```text
-[ 3 3 ]
-[ 2 5 ]
-```
+A VHX combina duas famílias clássicas de cifra: a Vigenère é uma
+**substituição** (troca o valor de cada letra) e a inversão de blocos é
+uma **transposição** (muda a ordem das letras, sem mudar o valor delas).
 
 Exemplo com `DADOS`:
 
@@ -62,14 +55,12 @@ chave SOLLO
 Vigenère → VOOZG
 blocos   → VOO | ZG
 inversão → OOV | GZ
-padding  → OOVGZX
-pares    → OO | VG | ZX
-Hill     → GU | DU | OJ
 
-Resultado: GUDUOJ
+Resultado: OOVGZ
 ```
 
-A descriptografia faz o caminho inverso: Hill inversa, tira o `X` se existir, desfaz a inversão dos blocos e aplica `P = (C - K) mod 26`.
+A descriptografia faz o caminho inverso: desfaz a inversão dos blocos e
+aplica `P = (C - K) mod 26`.
 
 ## Modos do frontend
 
@@ -79,7 +70,7 @@ Mostra só o texto secreto e o resultado. Não revela a chave nem as etapas.
 
 ### Modo explicação
 
-Mostra a chave `SOL`, a montagem `SOL / LOS`, as contas da Vigenère, a inversão dos blocos e a Hill letra a letra.
+Mostra a chave `SOL`, a montagem `SOL / LOS`, as contas da Vigenère letra a letra e a inversão de cada bloco de 3.
 
 ## Como executar
 

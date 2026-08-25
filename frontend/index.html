@@ -105,8 +105,8 @@
         <div>
           <h2>Modo explicação</h2>
           <p class="section-description">
-            A VHX combina Vigenère com chave SOL / LOS, inversão de blocos de 3
-            letras e a cifra de Hill em pares. A chave é fixa: SOL.
+            A VHX combina Vigenère com chave SOL / LOS e inversão de blocos de 3
+            letras. A chave é fixa: SOL.
           </p>
         </div>
       </div>
@@ -121,7 +121,6 @@
           <div class="formula-card">
             <p><strong>Chave fixa:</strong> SOL (alterna com LOS)</p>
             <p><strong>Vigenère:</strong> C = (P + K) mod 26</p>
-            <p><strong>Hill:</strong> matriz [ 3 3 ; 2 5 ]</p>
             <p>A = 0, B = 1, …, Z = 25</p>
           </div>
 
@@ -139,8 +138,6 @@
             <li>Vigenère com chave normal / invertida</li>
             <li>Dividir em blocos de 3</li>
             <li>Inverter cada bloco</li>
-            <li>Dividir em pares (acrescentar X se for ímpar)</li>
-            <li>Hill</li>
             <li>Texto cifrado</li>
           </ol>
         </article>
@@ -167,7 +164,7 @@
           <div class="panel-title-row">
             <div>
               <h3>Descriptografia</h3>
-              <p class="section-description">Caminho inverso: Hill, blocos e Vigenère.</p>
+              <p class="section-description">Caminho inverso: blocos e Vigenère.</p>
             </div>
             <button class="primary-btn" id="explainDecryptBtn" type="button">
               Mostrar descriptografia
@@ -194,20 +191,20 @@
 
         <div class="comparison-grid">
           <div>
-            <h4>Vigenère + inversão</h4>
+            <h4>Vigenère (substituição)</h4>
             <ul>
               <li>A chave fixa SOL se alterna com LOS a cada 3 letras.</li>
-              <li>Depois da soma modular, cada bloco de 3 é invertido.</li>
+              <li>Cada letra soma o valor da letra da chave, módulo 26.</li>
               <li>Exemplo: DADOS usa a chave SOLLO.</li>
             </ul>
           </div>
 
           <div>
-            <h4>Hill</h4>
+            <h4>Inversão de blocos (transposição)</h4>
             <ul>
-              <li>O texto vira pares de letras.</li>
-              <li>Se o tamanho for ímpar, acrescenta-se X.</li>
-              <li>Cada par é multiplicado pela matriz [ 3 3 ; 2 5 ].</li>
+              <li>O texto já cifrado pela Vigenère é cortado em blocos de 3 letras.</li>
+              <li>Cada bloco é escrito de trás para frente.</li>
+              <li>Muda a ordem das letras, sem mudar o valor delas — complementa a Vigenère.</li>
             </ul>
           </div>
         </div>

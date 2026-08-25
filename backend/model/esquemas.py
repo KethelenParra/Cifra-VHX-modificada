@@ -44,23 +44,6 @@ class ContaBloco(BaseModel):
     resumo: str
 
 
-class ContaParHill(BaseModel):
-    """Um par de letras processado pela matriz de Hill."""
-
-    indice: int
-    par: str
-    letra_esq: str
-    valor_esq: int
-    letra_dir: str
-    valor_dir: int
-    conta_linha1: str
-    conta_linha2: str
-    par_resultado: str
-    letra_res_esq: str
-    letra_res_dir: str
-    resumo: str
-
-
 class RespostaCifra(BaseModel):
     """Resposta completa usada pelo modo desafio e pelo modo explicação - resultado final mais o detalhamento pedagógico"""
 
@@ -72,12 +55,8 @@ class RespostaCifra(BaseModel):
     chave_montada: str
     depois_vigenere: str
     depois_blocos: str
-    texto_com_x: str
-    usou_x: bool
     texto_saida: str
     alfabeto: str
-    matriz_hill: str
     passos: List[Passo]
     letras_vigenere: List[ContaLetra]
     blocos: List[ContaBloco]
-    pares_hill: List[ContaParHill]

@@ -41,7 +41,7 @@ export function toggleInputVisibility(input, button) {
   button.textContent = hidden ? "Ocultar" : "Mostrar";
 }
 
-/** Cartões resumidos de cada etapa (normalização, Vigenère, blocos, Hill). */
+/** Cartões resumidos de cada etapa (normalização, Vigenère, blocos). */
 export function renderSteps(container, steps) {
   container.innerHTML = "";
 
@@ -124,7 +124,7 @@ function calcArticle(title, metaItems, table, summary) {
   return article;
 }
 
-/** Três tabelas: Vigenère letra a letra, inversão dos blocos e Hill nos pares. */
+/** Duas tabelas: Vigenère letra a letra e inversão dos blocos. */
 export function renderCalculations(container, data) {
   container.innerHTML = "";
   const isEncrypt = data.operacao === "criptografar";
@@ -177,30 +177,4 @@ export function renderCalculations(container, data) {
       data.blocos.map((bloco) => bloco.resumo).join(" · ")
     )
   );
-
-  const hill = calcArticle(
-    isEncrypt ? "Cifra de Hill nos pares" : "Hill inversa nos pares",
-    [
-      { label: "Matriz", value: data.matriz_hill },
-      { label: "Entrada", value: isEncrypt ? data.texto_com_x : data.texto_normalizado },
-      { label: "Saída", value: isEncrypt ? data.texto_saida : data.texto_com_x },
-    ],
-    tableFromRows(
-      ["Par", "Letras", "Valores", "1ª linha", "2ª linha", "Resultado"],
-      data.pares_hill.map((par) => [
-        String(par.indice),
-        par.par,
-        `${par.valor_esq}, ${par.valor_dir}`,
-        par.conta_linha1,
-        par.conta_linha2,
-        par.par_resultado,
-      ])
-    ),
-    data.usou_x
-      ? isEncrypt
-        ? `Como havia número ímpar de letras, foi acrescentado X: ${data.depois_blocos} → ${data.texto_com_x}.`
-        : `O X de preenchimento foi removido: ${data.texto_com_x} → ${data.depois_blocos}.`
-      : data.pares_hill.map((par) => par.resumo).join(" · ")
-  );
-  container.appendChild(hill);
 }

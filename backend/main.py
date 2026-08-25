@@ -15,7 +15,7 @@ from backend.api.rotas import rotas
 
 app = FastAPI(
     title="Cifra VHX",
-    description="Vigenère + inversão de blocos + Hill",
+    description="Vigenère + inversão de blocos",
     version="2.0.0",
 )
 

@@ -13,11 +13,9 @@ const ENCRYPT_PROCESS = [
   "Normalizando o texto",
   "Aplicando Vigenère com SOL / LOS",
   "Invertendo blocos de 3 letras",
-  "Aplicando a cifra de Hill",
 ];
 
 const DECRYPT_PROCESS = [
-  "Desfazendo a cifra de Hill",
   "Desinvertendo os blocos",
   "Aplicando Vigenère inversa",
   "Recompondo o texto original",
