@@ -1,3 +1,18 @@
+"""
+Orquestração da Cifra VHX.
+
+Criptografia (nessa ordem):
+    1. Normalizar para A–Z
+    2. Montar a chave SOL / LOS
+    3. Vigenère: C = (P + K) mod 26
+    4. Inverter blocos de 3
+    5. Completar com X se o tamanho for ímpar
+    6. Hill nos pares
+
+Descriptografia: o caminho inverso (Hill inversa, tirar X,
+desinverter blocos, Vigenère inversa).
+"""
+
 from backend.model.esquemas import Passo, RespostaCifra
 from .alfabeto import mapa_alfabeto, so_letras
 from .blocos import chave_em_grupos, inverter_blocos, montar_chave
@@ -7,14 +22,16 @@ from .preenchimento import completar_com_x, tirar_x
 from .vigenere import criptografar_vigenere, descriptografar_vigenere
 
 
-def _pegar_letras(texto, mensagem_erro):
+def _pegar_letras(texto: str, mensagem_erro: str) -> str:
+    """Normaliza o texto e recusa entrada sem nenhuma letra A–Z."""
     limpo = so_letras(texto)
     if not limpo:
         raise ValueError(mensagem_erro)
     return limpo
 
 
-def criptografar(texto):
+def criptografar(texto: str) -> RespostaCifra:
+    """Executa as seis etapas da VHX e monta a resposta pedagógica."""
     normalizado = _pegar_letras(
         texto,
         "O texto precisa possuir pelo menos uma letra de A a Z.",
@@ -84,7 +101,8 @@ def criptografar(texto):
     )
 
 
-def descriptografar(texto):
+def descriptografar(texto: str) -> RespostaCifra:
+    """Desfaz a VHX na ordem inversa e monta a resposta pedagógica."""
     normalizado = _pegar_letras(
         texto,
         "O texto cifrado precisa possuir pelo menos uma letra.",

@@ -1,5 +1,17 @@
+/**
+ * Cliente HTTP da API VHX.
+ *
+ * Todas as chamadas passam por /api. Em caso de erro, o FastAPI devolve
+ * { detail: "mensagem" }, que vira uma Exception para a tela tratar.
+ */
+
 const API_BASE = "/api";
 
+/**
+ * @param {string} path  Caminho após /api, por exemplo "/encrypt"
+ * @param {object|null} body  Corpo JSON (POST) ou null (GET)
+ * @returns {Promise<object>}
+ */
 export async function apiRequest(path, body = null) {
   const options = {
     method: body ? "POST" : "GET",

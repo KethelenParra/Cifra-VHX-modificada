@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!--
+  Cifra VHX — interface do trabalho acadêmico.
+  Dois modos: desafio (sem revelar a chave) e explicação (passos e contas).
+  O JavaScript está em módulos em js/; o estilo em css/styles.css.
+-->
 <html lang="pt-BR" data-theme="light">
 <head>
   <meta charset="UTF-8" />
@@ -13,6 +18,7 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+  <!-- Cabeçalho: título do modo atual e botão de tema -->
   <header class="topbar">
     <div class="topbar-inner">
       <div>
@@ -28,6 +34,7 @@
   </header>
 
   <main class="container">
+    <!-- Abas: desafio (apresentação) ou explicação (didático) -->
     <section class="intro">
       <div class="mode-switch" role="tablist" aria-label="Selecionar modo">
         <button id="challengeTab" class="mode-btn active" type="button">Modo desafio</button>
@@ -35,6 +42,7 @@
       </div>
     </section>
 
+    <!-- MODO DESAFIO: campo oculto + resultado cifrado -->
     <section id="challengeMode" class="mode-section">
       <div class="section-heading">
         <div>
@@ -91,6 +99,7 @@
       </p>
     </section>
 
+    <!-- MODO EXPLICAÇÃO: chave SOL, fórmulas e tabelas de cálculo -->
     <section id="explainMode" class="mode-section hidden">
       <div class="section-heading">
         <div>
@@ -215,6 +224,7 @@
     Projeto acadêmico de criptografia simétrica · Kethelen Parra e Gisele Veloso
   </footer>
 
+  <!-- Overlay mostrado enquanto a API processa criptografar / descriptografar -->
   <div id="processOverlay" class="process-overlay hidden" aria-live="polite" aria-busy="false">
     <div class="process-card" role="status">
       <p class="process-kicker" id="processKicker">Operação em andamento</p>

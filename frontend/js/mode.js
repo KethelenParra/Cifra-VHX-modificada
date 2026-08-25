@@ -1,3 +1,9 @@
+/**
+ * Troca entre modo desafio e modo explicação.
+ *
+ * Atualiza as abas, o título da página e o rodapé (autoria do trabalho).
+ */
+
 export function initModeSwitch() {
   const challengeTab = document.getElementById("challengeTab");
   const explainTab = document.getElementById("explainTab");

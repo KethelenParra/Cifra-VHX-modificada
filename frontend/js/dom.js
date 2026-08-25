@@ -1,3 +1,10 @@
+/**
+ * Funções de tela reutilizadas pelos dois modos.
+ *
+ * Mensagens de erro/sucesso, validação do texto, mostrar/ocultar senha
+ * e montagem das tabelas pedagógicas (passos e contas).
+ */
+
 export function setMessage(element, text, type = "error") {
   element.textContent = text;
   element.classList.remove("hidden", "error", "success");
@@ -10,6 +17,10 @@ export function clearMessage(element) {
   element.classList.remove("error", "success");
 }
 
+/**
+ * Exige pelo menos uma letra A–Z (acentos valem, porque são normalizados).
+ * @returns {string|null} mensagem de erro, ou null se estiver ok
+ */
 export function validateText(text) {
   const hasLetter = /[a-zA-Z]/.test(
     text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
@@ -30,6 +41,7 @@ export function toggleInputVisibility(input, button) {
   button.textContent = hidden ? "Ocultar" : "Mostrar";
 }
 
+/** Cartões resumidos de cada etapa (normalização, Vigenère, blocos, Hill). */
 export function renderSteps(container, steps) {
   container.innerHTML = "";
 
@@ -112,6 +124,7 @@ function calcArticle(title, metaItems, table, summary) {
   return article;
 }
 
+/** Três tabelas: Vigenère letra a letra, inversão dos blocos e Hill nos pares. */
 export function renderCalculations(container, data) {
   container.innerHTML = "";
   const isEncrypt = data.operacao === "criptografar";

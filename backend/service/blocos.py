@@ -1,10 +1,22 @@
+"""
+Montagem da chave alternada e inversão dos blocos.
+
+A chave SOL se repete invertida a cada 3 letras até cobrir a mensagem.
+Em seguida (na criptografia), o texto é cortado de 3 em 3 e cada
+pedaço é escrito ao contrário. A mesma inversão desfaz o efeito,
+porque inverter duas vezes devolve o bloco original.
+"""
+
 from backend.model.esquemas import ContaBloco
 from .configuracao import CHAVE, TAMANHO_BLOCO
 
 
-def montar_chave(tamanho, chave=CHAVE):
-    # SOL, depois LOS, depois SOL... até cobrir o texto
-    # DADOS (5 letras) vira SOLLO
+def montar_chave(tamanho: int, chave: str = CHAVE) -> str:
+    """
+    Repete a chave e a chave invertida até atingir o tamanho do texto.
+
+    Exemplo com SOL e 5 letras (DADOS): SOL + LO → SOLLO
+    """
     normal = chave
     invertida = chave[::-1]
     pedacos = []
@@ -21,18 +33,26 @@ def montar_chave(tamanho, chave=CHAVE):
     return "".join(pedacos)
 
 
-def chave_em_grupos(chave_montada):
+def chave_em_grupos(chave_montada: str) -> str:
+    """Separa a chave montada de 3 em 3 para facilitar a leitura na tela."""
     return " | ".join(
         chave_montada[i:i + TAMANHO_BLOCO]
         for i in range(0, len(chave_montada), TAMANHO_BLOCO)
     )
 
 
-def cortar_blocos(texto, tamanho=TAMANHO_BLOCO):
+def cortar_blocos(texto: str, tamanho: int = TAMANHO_BLOCO) -> list:
+    """Parte o texto em fatias de no máximo `tamanho` letras."""
     return [texto[i:i + tamanho] for i in range(0, len(texto), tamanho)]
 
 
-def inverter_blocos(texto):
+def inverter_blocos(texto: str):
+    """
+    Inverte cada bloco de 3 (o último pode ser menor).
+
+    Exemplo: VOOZG → VOO | ZG → OOV | GZ
+    Devolve o texto juntado e a lista de contas para o modo explicação.
+    """
     contas = []
     invertidos = []
 

@@ -1,3 +1,10 @@
+/**
+ * Modo explicação.
+ *
+ * Mostra a chave SOL, as etapas e as contas letra a letra.
+ * A descriptografia só é habilitada depois de uma criptografia nesta sessão.
+ */
+
 import { apiRequest } from "./api.js";
 import { clearMessage, renderCalculations, renderSteps, setMessage, validateText } from "./dom.js";
 import { withProcessOverlay } from "./overlay.js";
