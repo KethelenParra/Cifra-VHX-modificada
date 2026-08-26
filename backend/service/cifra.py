@@ -1,5 +1,5 @@
 """
-Orquestração da Cifra VHX Dupla.
+Orquestração da Cifra Criptografada.
 
 Criptografia (nessa ordem):
     1. Normalizar para A–Z
@@ -31,7 +31,7 @@ def _pegar_letras(texto: str, mensagem_erro: str) -> str:
 
 
 def criptografar(texto: str) -> RespostaCifra:
-    """Executa as etapas da VHX Dupla e monta a resposta pedagógica."""
+    """Executa as etapas da Cifra Criptografada e monta a resposta pedagógica."""
     normalizado = _pegar_letras(
         texto,
         "O texto precisa possuir pelo menos uma letra de A a Z.",
@@ -106,7 +106,7 @@ def criptografar(texto: str) -> RespostaCifra:
 
 
 def descriptografar(texto: str) -> RespostaCifra:
-    """Desfaz a VHX Dupla na ordem inversa e monta a resposta pedagógica."""
+    """Desfaz a Cifra Criptografada na ordem inversa e monta a resposta pedagógica."""
     normalizado = _pegar_letras(
         texto,
         "O texto cifrado precisa possuir pelo menos uma letra.",

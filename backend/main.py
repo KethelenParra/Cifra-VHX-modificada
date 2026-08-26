@@ -14,7 +14,7 @@ from fastapi.staticfiles import StaticFiles
 from backend.api.rotas import rotas
 
 app = FastAPI(
-    title="Cifra VHX Dupla",
+    title="Cifra Criptografada",
     description="Vigenère (SOL/LOS) + inversão de blocos + Vigenère (TPM/MPT)",
     version="3.0.0",
 )

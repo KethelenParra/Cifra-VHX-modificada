@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <!--
-  Cifra VHX Dupla — interface do trabalho acadêmico.
+  Cifra Criptografada — interface do trabalho acadêmico.
   Dois modos: desafio (sem revelar as chaves) e explicação (passos e contas).
   O JavaScript está em módulos em js/; o estilo em css/styles.css.
 -->
 <html lang="pt-BR" data-theme="light">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,10 +14,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,500;0,600;1,400&display=swap"
-    rel="stylesheet"
-  />
+    rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
+
 <body>
   <!-- Cabeçalho: título do modo atual e botão de tema -->
   <header class="topbar">
@@ -59,13 +60,9 @@
 
           <label for="challengePlain">Texto secreto</label>
           <div class="secret-wrapper">
-            <input
-              id="challengePlain"
-              type="password"
-              placeholder="Digite a palavra ou frase"
-              autocomplete="off"
-            />
-            <button class="icon-btn" id="toggleChallengePlain" type="button" aria-label="Mostrar ou esconder texto">Mostrar</button>
+            <input id="challengePlain" type="password" placeholder="Digite a palavra ou frase" autocomplete="off" />
+            <button class="icon-btn" id="toggleChallengePlain" type="button"
+              aria-label="Mostrar ou esconder texto">Mostrar</button>
           </div>
 
           <button class="primary-btn full" id="challengeEncryptBtn" type="button">
@@ -92,11 +89,6 @@
           </div>
         </article>
       </div>
-
-      <p class="note">
-        Na apresentação, criptografe com o campo oculto e mostre só o resultado.
-        Depois das tentativas da turma, use “Descriptografar”.
-      </p>
     </section>
 
     <!-- MODO EXPLICAÇÃO: chaves SOL e TPM, fórmulas e tabelas de cálculo -->
@@ -105,7 +97,7 @@
         <div>
           <h2>Modo explicação</h2>
           <p class="section-description">
-            A VHX Dupla aplica duas Vigenères com chaves diferentes e, no meio,
+            Aplica-se duas Vigenères com chaves diferentes e, no meio,
             inverte blocos de 3 letras. A 1ª chave é SOL; a 2ª deriva dela: TPM.
           </p>
         </div>
@@ -187,7 +179,7 @@
       </section>
 
       <section class="panel theory-panel">
-        <h3>O que a VHX Dupla junta</h3>
+        <h3>O que a Criptografia junta</h3>
 
         <div class="comparison-grid">
           <div>
@@ -219,7 +211,7 @@
         </div>
 
         <p class="academic-note">
-          A VHX Dupla foi feita para demonstração em sala.
+          A criptografia foi feita para demonstração em sala.
         </p>
       </section>
     </section>
@@ -239,4 +231,5 @@
   </div>
   <script type="module" src="js/main.js"></script>
 </body>
+
 </html>

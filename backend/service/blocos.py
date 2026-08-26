@@ -1,7 +1,7 @@
 """
 Montagem da chave alternada e inversão dos blocos.
 
-A mesma montagem serve para as duas chaves da VHX Dupla:
+A mesma montagem serve para as duas chaves da Cifra Criptografada:
 SOL se repete invertida (SOL / LOS) e TPM se repete invertida (TPM / MPT),
 até cobrir a mensagem.
 

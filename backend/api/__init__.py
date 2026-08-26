@@ -1,1 +1,1 @@
-"""Rotas HTTP da Cifra VHX Dupla."""
+"""Rotas HTTP da Cifra Criptografada."""

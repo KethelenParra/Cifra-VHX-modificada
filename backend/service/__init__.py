@@ -1,5 +1,5 @@
 """
-Regras da Cifra VHX Dupla.
+Regras da Cifra Criptografada.
 
 Cada módulo trata uma etapa:
 - alfabeto: conversão letra ↔ número (A=0 … Z=25) e derivação da 2ª chave

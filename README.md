@@ -1,4 +1,4 @@
-# Cifra VHX Dupla
+# Cifra Criptografada
 
 Projeto acadêmico de criptografia simétrica: duas Vigenères com chaves
 diferentes e inversão de blocos no meio.
@@ -50,7 +50,7 @@ TEXTO CIFRADO
 5. Monta a 2ª chave: `TPM`, depois `MPT`, depois `TPM`...
 6. Aplica Vigenère 2: de novo `C = (P + K) mod 26`.
 
-A VHX Dupla combina duas famílias clássicas: a Vigenère é uma
+Combina-se duas famílias clássicas: a Vigenère é uma
 **substituição** (troca o valor de cada letra) e a inversão de blocos é
 uma **transposição** (muda a ordem das letras, sem mudar o valor delas).
 Como as duas Vigenères usam chaves diferentes, quem aplicar só a Vigenère
@@ -128,7 +128,3 @@ Exemplo:
   "texto": "ATAQUE"
 }
 ```
-
-## Observação acadêmica
-
-A VHX Dupla é uma cifra de demonstração. Não use para proteger dados reais; em sistemas reais, use algoritmos como AES.

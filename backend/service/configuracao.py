@@ -1,5 +1,5 @@
 """
-Constantes da Cifra VHX Dupla.
+Constantes da Cifra Criptografada.
 
 A chave não é digitada na tela: fica fixa aqui para o modo desafio
 não revelar o segredo.

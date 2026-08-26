@@ -26,7 +26,7 @@ def avancar_letras(texto: str, deslocamento: int = 1) -> str:
     """
     Avança cada letra N posições no alfabeto (módulo 26).
 
-    Usado para derivar a 2ª chave da VHX Dupla: SOL + 1 → TPM.
+    Usado para derivar a 2ª chave da Cifra Criptografada: SOL + 1 → TPM.
     """
     return "".join(letra_do_indice(indice(letra) + deslocamento) for letra in texto)
 
