@@ -234,6 +234,12 @@ footer {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.challenge-stack {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
 /* ---------- Painéis, formulários e botões ---------- */
 .panel,
 .note {
@@ -350,6 +356,7 @@ button:disabled {
 
 .cipher-display {
   min-height: 112px;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -374,6 +381,10 @@ button:disabled {
   flex: 1;
 }
 
+.result-subheading {
+  margin-top: 22px;
+}
+
 .reveal-card,
 .result-chip {
   border: 1px solid var(--line);
@@ -381,7 +392,7 @@ button:disabled {
 }
 
 .reveal-card {
-  margin-top: 14px;
+  margin-top: 16px;
   padding: 14px;
 }
 

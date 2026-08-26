@@ -4,6 +4,9 @@
  * Mostra só o texto cifrado. As chaves e as contas não aparecem nesta tela.
  * O texto original some do campo depois de criptografar, para a apresentação
  * em sala não revelar a mensagem.
+ *
+ * O fluxo do enunciado (copiar e colar): criptografa → copia o cifrado →
+ * cola no painel Descriptografar para recuperar o texto claro.
  */
 
 import { apiRequest } from "./api.js";
@@ -22,7 +25,7 @@ const CHALLENGE_DECRYPT_PROCESS = [
   "Montando o resultado",
 ];
 
-/** Guarda o último cifrado desta sessão (não fica visível no campo de entrada). */
+/** Guarda o último cifrado desta sessão, usado só pelo botão Copiar. */
 const state = {
   cipher: "",
 };
@@ -32,14 +35,19 @@ export function initChallenge() {
   const challengeEncryptBtn = document.getElementById("challengeEncryptBtn");
   const challengeDecryptBtn = document.getElementById("challengeDecryptBtn");
   const challengeCipher = document.getElementById("challengeCipher");
+  const challengeCipherPaste = document.getElementById("challengeCipherPaste");
   const challengeRecovered = document.getElementById("challengeRecovered");
-  const challengeReveal = document.getElementById("challengeReveal");
   const challengeMessage = document.getElementById("challengeEncryptMessage");
+  const challengeDecryptMessage = document.getElementById("challengeDecryptMessage");
   const toggleChallengePlain = document.getElementById("toggleChallengePlain");
   const copyChallengeCipher = document.getElementById("copyChallengeCipher");
 
   challengePlain.addEventListener("input", () => {
     challengePlain.value = challengePlain.value.toUpperCase();
+  });
+
+  challengeCipherPaste.addEventListener("input", () => {
+    challengeCipherPaste.value = challengeCipherPaste.value.toUpperCase();
   });
 
   toggleChallengePlain.addEventListener("click", () => {
@@ -48,7 +56,8 @@ export function initChallenge() {
 
   challengeEncryptBtn.addEventListener("click", async () => {
     clearMessage(challengeMessage);
-    challengeReveal.classList.add("hidden");
+    clearMessage(challengeDecryptMessage);
+    challengeRecovered.textContent = "—";
 
     const text = challengePlain.value;
     const validationError = validateText(text);
@@ -67,13 +76,12 @@ export function initChallenge() {
 
       state.cipher = data.texto_saida;
       challengeCipher.textContent = data.texto_saida;
-      challengeDecryptBtn.disabled = false;
       copyChallengeCipher.disabled = false;
       challengePlain.value = "";
 
       setMessage(
         challengeMessage,
-        "Criptografia concluída. O texto original foi removido do campo visível.",
+        "Criptografia concluída. Copie o texto cifrado e cole em Descriptografar.",
         "success"
       );
     } catch (error) {
@@ -84,10 +92,12 @@ export function initChallenge() {
   });
 
   challengeDecryptBtn.addEventListener("click", async () => {
-    clearMessage(challengeMessage);
+    clearMessage(challengeDecryptMessage);
 
-    if (!state.cipher) {
-      setMessage(challengeMessage, "Nenhum texto foi criptografado nesta sessão.");
+    const pasted = challengeCipherPaste.value;
+    const validationError = validateText(pasted);
+    if (validationError) {
+      setMessage(challengeDecryptMessage, validationError);
       return;
     }
 
@@ -96,13 +106,12 @@ export function initChallenge() {
       const data = await withProcessOverlay({
         title: "Descriptografando",
         steps: CHALLENGE_DECRYPT_PROCESS,
-        work: () => apiRequest("/decrypt", { texto: state.cipher }),
+        work: () => apiRequest("/decrypt", { texto: pasted }),
       });
 
       challengeRecovered.textContent = data.texto_saida;
-      challengeReveal.classList.remove("hidden");
     } catch (error) {
-      setMessage(challengeMessage, error.message);
+      setMessage(challengeDecryptMessage, error.message);
     } finally {
       challengeDecryptBtn.disabled = false;
     }

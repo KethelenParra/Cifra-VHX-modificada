@@ -43,34 +43,56 @@
       </div>
     </section>
 
-    <!-- MODO DESAFIO: campo oculto + resultado cifrado -->
+    <!-- MODO DESAFIO: criptografa, copia o cifrado e cola para descriptografar -->
     <section id="challengeMode" class="mode-section">
       <div class="section-heading">
         <div>
           <h2>Modo desafio</h2>
           <p class="section-description">
-            O texto fica oculto. Depois da criptografia, a tela mostra somente o resultado.
+            O texto fica oculto. Depois da criptografia, copie o resultado e cole
+            no campo de descriptografar para recuperar a mensagem.
           </p>
         </div>
       </div>
 
       <div class="grid two-cols">
-        <article class="panel">
-          <h3>Criptografar</h3>
+        <div class="challenge-stack">
+          <article class="panel">
+            <h3>Criptografar</h3>
 
-          <label for="challengePlain">Texto secreto</label>
-          <div class="secret-wrapper">
-            <input id="challengePlain" type="password" placeholder="Digite a palavra ou frase" autocomplete="off" />
-            <button class="icon-btn" id="toggleChallengePlain" type="button"
-              aria-label="Mostrar ou esconder texto">Mostrar</button>
-          </div>
+            <label for="challengePlain">Texto secreto</label>
+            <div class="secret-wrapper">
+              <input id="challengePlain" type="password" placeholder="Digite a palavra ou frase" autocomplete="off" />
+              <button class="icon-btn" id="toggleChallengePlain" type="button"
+                aria-label="Mostrar ou esconder texto">Mostrar</button>
+            </div>
 
-          <button class="primary-btn full" id="challengeEncryptBtn" type="button">
-            Criptografar
-          </button>
+            <button class="primary-btn full" id="challengeEncryptBtn" type="button">
+              Criptografar
+            </button>
 
-          <div id="challengeEncryptMessage" class="message-box hidden"></div>
-        </article>
+            <div id="challengeEncryptMessage" class="message-box hidden"></div>
+          </article>
+
+          <!-- Cola o texto cifrado copiado (outra “aplicação” do enunciado). -->
+          <article class="panel">
+            <h3>Descriptografar</h3>
+
+            <label for="challengeCipherPaste">Texto cifrado</label>
+            <input
+              id="challengeCipherPaste"
+              type="text"
+              placeholder="Cole o texto cifrado"
+              autocomplete="off"
+            />
+
+            <button class="primary-btn full" id="challengeDecryptBtn" type="button">
+              Descriptografar
+            </button>
+
+            <div id="challengeDecryptMessage" class="message-box hidden"></div>
+          </article>
+        </div>
 
         <article class="panel result-panel">
           <h3>Texto criptografado</h3>
@@ -78,15 +100,11 @@
 
           <div class="challenge-actions">
             <button class="secondary-btn" id="copyChallengeCipher" type="button" disabled>Copiar</button>
-            <button class="primary-btn" id="challengeDecryptBtn" type="button" disabled>
-              Descriptografar
-            </button>
           </div>
 
-          <div id="challengeReveal" class="reveal-card hidden">
-            <span>Texto recuperado</span>
-            <strong id="challengeRecovered">—</strong>
-          </div>
+          <!-- Resultado da descriptografia, embaixo do cifrado. -->
+          <h3 class="result-subheading">Texto descriptografado</h3>
+          <div id="challengeRecovered" class="cipher-display">—</div>
         </article>
       </div>
     </section>

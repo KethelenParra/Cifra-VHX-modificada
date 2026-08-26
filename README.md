@@ -79,6 +79,8 @@ desfaz a inversão dos blocos e aplica a Vigenère 1 inversa com `SOL / LOS`
 ### Modo desafio
 
 Mostra só o texto secreto e o resultado. Não revela as chaves nem as etapas.
+Criptografa, copia o texto cifrado e cola no painel Descriptografar para
+recuperar o texto claro — o fluxo de copiar e colar do enunciado.
 
 ### Modo explicação
 
