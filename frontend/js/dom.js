@@ -41,8 +41,8 @@ export function toggleInputVisibility(input, button) {
   button.textContent = hidden ? "Ocultar" : "Mostrar";
 }
 
-/** Cartões resumidos de cada etapa (normalização, Vigenère, blocos, Hill). */
-export function renderSteps(container, steps) {
+/** Cartões de cada etapa; a tabela de contas entra dentro do próprio cartão. */
+export function renderSteps(container, steps, data = null) {
   container.innerHTML = "";
 
   steps.forEach((step) => {
@@ -63,6 +63,13 @@ export function renderSteps(container, steps) {
       value.className = "step-value";
       value.textContent = step.valor;
       article.appendChild(value);
+    }
+
+    if (data && step.tabela) {
+      const calc = calculationFor(step.tabela, data);
+      if (calc) {
+        article.appendChild(calc);
+      }
     }
 
     container.appendChild(article);
@@ -100,12 +107,9 @@ function tableFromRows(headers, rows) {
   return wrap;
 }
 
-function calcArticle(title, metaItems, table, summary) {
+function calcArticle(metaItems, table, summary) {
   const article = document.createElement("article");
   article.className = "calc-block";
-
-  const heading = document.createElement("h4");
-  heading.textContent = title;
 
   const meta = document.createElement("p");
   meta.className = "calc-meta";
@@ -117,90 +121,89 @@ function calcArticle(title, metaItems, table, summary) {
   note.className = "calc-summary";
   note.textContent = summary;
 
-  article.appendChild(heading);
   article.appendChild(meta);
   article.appendChild(table);
   article.appendChild(note);
   return article;
 }
 
-/** Três tabelas: Vigenère letra a letra, inversão dos blocos e Hill nos pares. */
-export function renderCalculations(container, data) {
-  container.innerHTML = "";
+function vigenereTable(letras, isEncrypt) {
+  return tableFromRows(
+    [
+      isEncrypt ? "P" : "C",
+      "Valor",
+      "K",
+      "Valor",
+      "Fórmula",
+      "Conta",
+      isEncrypt ? "C" : "P",
+    ],
+    letras.map((letra) => [
+      letra.letra,
+      letra.valor,
+      letra.letra_chave,
+      letra.valor_chave,
+      letra.operacao,
+      letra.conta,
+      `${letra.letra_resultado} (${letra.valor_resultado})`,
+    ])
+  );
+}
+
+function vigenereBlock({ texto, chave, resultado, letras, isEncrypt, summary }) {
+  return calcArticle(
+    [
+      { label: "Texto", value: texto },
+      { label: "Chave montada", value: chave },
+      { label: "Resultado", value: resultado },
+    ],
+    vigenereTable(letras, isEncrypt),
+    summary
+  );
+}
+
+function calculationFor(kind, data) {
   const isEncrypt = data.operacao === "criptografar";
 
-  const vigenere = calcArticle(
-    isEncrypt ? "Vigenère letra a letra" : "Vigenère inversa letra a letra",
-    [
-      { label: "Texto", value: isEncrypt ? data.texto_normalizado : data.depois_vigenere },
-      { label: "Chave montada", value: data.chave_montada },
-      { label: "Resultado", value: isEncrypt ? data.depois_vigenere : data.texto_saida },
-    ],
-    tableFromRows(
-      [
-        isEncrypt ? "P" : "C",
-        "Valor",
-        "K",
-        "Valor",
-        "Fórmula",
-        "Conta",
-        isEncrypt ? "C" : "P",
-      ],
-      data.letras_vigenere.map((letra) => [
-        letra.letra,
-        letra.valor,
-        letra.letra_chave,
-        letra.valor_chave,
-        letra.operacao,
-        letra.conta,
-        `${letra.letra_resultado} (${letra.valor_resultado})`,
-      ])
-    ),
-    isEncrypt
-      ? `${data.texto_normalizado} com chave ${data.chave_montada} resulta em ${data.depois_vigenere}.`
-      : `${data.depois_vigenere} menos a chave ${data.chave_montada} recupera ${data.texto_saida}.`
-  );
-  container.appendChild(vigenere);
+  if (kind === "vigenere_1") {
+    return vigenereBlock({
+      texto: isEncrypt ? data.texto_normalizado : data.depois_blocos,
+      chave: data.chave_montada,
+      resultado: isEncrypt ? data.depois_vigenere : data.texto_saida,
+      letras: data.letras_vigenere,
+      isEncrypt,
+      summary: isEncrypt
+        ? `${data.texto_normalizado} com chave ${data.chave_montada} resulta em ${data.depois_vigenere}.`
+        : `${data.depois_blocos} menos a chave ${data.chave_montada} recupera ${data.texto_saida}.`,
+    });
+  }
 
-  const blocksTable = tableFromRows(
-    ["Bloco", "Antes", "Depois da inversão"],
-    data.blocos.map((bloco) => [bloco.titulo, bloco.bloco, bloco.bloco_invertido])
-  );
-  container.appendChild(
-    calcArticle(
-      "Inversão dos blocos de 3",
+  if (kind === "vigenere_2") {
+    return vigenereBlock({
+      texto: isEncrypt ? data.depois_blocos : data.texto_normalizado,
+      chave: data.chave_montada_2,
+      resultado: data.depois_vigenere_2,
+      letras: data.letras_vigenere_2,
+      isEncrypt,
+      summary: isEncrypt
+        ? `${data.depois_blocos} com chave ${data.chave_montada_2} resulta em ${data.depois_vigenere_2}.`
+        : `${data.texto_normalizado} menos a chave ${data.chave_montada_2} resulta em ${data.depois_vigenere_2}.`,
+    });
+  }
+
+  if (kind === "blocos") {
+    return calcArticle(
       [
-        { label: "Antes", value: isEncrypt ? data.depois_vigenere : data.depois_blocos },
-        { label: "Depois", value: isEncrypt ? data.depois_blocos : data.depois_vigenere },
+        { label: "Antes", value: isEncrypt ? data.depois_vigenere : data.depois_vigenere_2 },
+        { label: "Depois", value: data.depois_blocos },
       ],
-      blocksTable,
+      tableFromRows(
+        ["Bloco", "Antes", "Depois da inversão"],
+        data.blocos.map((bloco) => [bloco.titulo, bloco.bloco, bloco.bloco_invertido])
+      ),
       data.blocos.map((bloco) => bloco.resumo).join(" · ")
-    )
-  );
+    );
+  }
 
-  const hill = calcArticle(
-    isEncrypt ? "Cifra de Hill nos pares" : "Hill inversa nos pares",
-    [
-      { label: "Matriz", value: data.matriz_hill },
-      { label: "Entrada", value: isEncrypt ? data.texto_com_x : data.texto_normalizado },
-      { label: "Saída", value: isEncrypt ? data.texto_saida : data.texto_com_x },
-    ],
-    tableFromRows(
-      ["Par", "Letras", "Valores", "1ª linha", "2ª linha", "Resultado"],
-      data.pares_hill.map((par) => [
-        String(par.indice),
-        par.par,
-        `${par.valor_esq}, ${par.valor_dir}`,
-        par.conta_linha1,
-        par.conta_linha2,
-        par.par_resultado,
-      ])
-    ),
-    data.usou_x
-      ? isEncrypt
-        ? `Como havia número ímpar de letras, foi acrescentado X: ${data.depois_blocos} → ${data.texto_com_x}.`
-        : `O X de preenchimento foi removido: ${data.texto_com_x} → ${data.depois_blocos}.`
-      : data.pares_hill.map((par) => par.resumo).join(" · ")
-  );
-  container.appendChild(hill);
+  return null;
 }

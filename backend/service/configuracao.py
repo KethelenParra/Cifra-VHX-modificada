@@ -1,26 +1,24 @@
 """
-Constantes da Cifra VHX.
+Constantes da Cifra Criptografada.
 
 A chave não é digitada na tela: fica fixa aqui para o modo desafio
-não revelar o segredo. A matriz inversa foi calculada de forma que
-M × M⁻¹ ≡ I (mod 26), permitindo desfazer a Hill.
+não revelar o segredo.
+
+Há duas Vigenères com regras diferentes:
+- 1ª chave: SOL, alternando com LOS a cada 3 letras
+- 2ª chave: derivada da primeira, avançando cada letra 1 posição (SOL → TPM),
+  alternando com MPT
 """
 
-# Palavra-chave da Vigenère. A cada 3 letras ela se inverte (SOL, LOS, SOL…).
+from .alfabeto import avancar_letras
+
+# Palavra-chave da 1ª Vigenère. A cada 3 letras ela se inverte (SOL, LOS, SOL…).
 CHAVE = "SOL"
 
-TAMANHO_BLOCO = 3   # tamanho usado na montagem da chave e na inversão
-TAMANHO_PAR = 2     # a Hill trabalha com vetores de 2 letras
-LETRA_X = "X"       # preenchimento quando o texto tem comprimento ímpar
+TAMANHO_BLOCO = 3   # tamanho usado na montagem da chave e na inversão de blocos
 
-# Novo par = matriz × par antigo, com aritmética módulo 26.
-MATRIZ_HILL = (
-    (3, 3),
-    (2, 5),
-)
+# Quantas posições cada letra da 1ª chave avança para formar a 2ª (S→T, O→P, L→M).
+DESLOCAMENTO_SEGUNDA_CHAVE = 1
 
-# Matriz inversa de MATRIZ_HILL no anel Z/26Z.
-MATRIZ_HILL_INVERSA = (
-    (15, 17),
-    (20, 9),
-)
+# Palavra-chave da 2ª Vigenère. Alterna com a invertida (TPM, MPT, TPM…).
+CHAVE_2 = avancar_letras(CHAVE, DESLOCAMENTO_SEGUNDA_CHAVE)

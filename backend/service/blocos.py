@@ -1,10 +1,13 @@
 """
 Montagem da chave alternada e inversão dos blocos.
 
-A chave SOL se repete invertida a cada 3 letras até cobrir a mensagem.
-Em seguida (na criptografia), o texto é cortado de 3 em 3 e cada
-pedaço é escrito ao contrário. A mesma inversão desfaz o efeito,
-porque inverter duas vezes devolve o bloco original.
+A mesma montagem serve para as duas chaves da Cifra Criptografada:
+SOL se repete invertida (SOL / LOS) e TPM se repete invertida (TPM / MPT),
+até cobrir a mensagem.
+
+No meio das duas Vigenères, o texto é cortado de 3 em 3 e cada pedaço
+é escrito ao contrário. A mesma inversão desfaz o efeito, porque
+inverter duas vezes devolve o bloco original.
 """
 
 from backend.model.esquemas import ContaBloco
@@ -16,6 +19,7 @@ def montar_chave(tamanho: int, chave: str = CHAVE) -> str:
     Repete a chave e a chave invertida até atingir o tamanho do texto.
 
     Exemplo com SOL e 5 letras (DADOS): SOL + LO → SOLLO
+    Exemplo com TPM e 6 letras (ATAQUE): TPM + MPT → TPMMPT
     """
     normal = chave
     invertida = chave[::-1]

@@ -21,13 +21,13 @@ export function initModeSwitch() {
     challengeMode.classList.toggle("hidden", isExplain);
     explainMode.classList.toggle("hidden", !isExplain);
 
-    headerTitle.textContent = isExplain ? "Cifra VHX" : "Desafio de criptografia";
+    headerTitle.textContent = isExplain ? "Cifra Criptografia" : "Desafio de criptografia";
     headerKicker.textContent = isExplain
       ? "Criptografia simétrica · projeto acadêmico"
       : "Projeto acadêmico · tente descobrir a mensagem";
-    document.title = isExplain ? "Cifra VHX" : "Desafio de criptografia";
+    document.title = isExplain ? "Cifra Criptografia" : "Desafio de criptografia";
     pageFooter.textContent = isExplain
-      ? "Cifra VHX · projeto acadêmico de criptografia simétrica · Kethelen Parra e Gisele Veloso"
+      ? "Cifra Criptografia · projeto acadêmico de criptografia simétrica · Kethelen Parra e Gisele Veloso"
       : "Projeto acadêmico de criptografia simétrica · Kethelen Parra e Gisele Veloso";
   }
 

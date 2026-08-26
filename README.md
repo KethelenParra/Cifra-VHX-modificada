@@ -1,6 +1,7 @@
-# Cifra VHX
+# Cifra Criptografada
 
-Projeto acadêmico de criptografia simétrica: Vigenère com chave alternada, inversão de blocos e cifra de Hill.
+Projeto acadêmico de criptografia simétrica: duas Vigenères com chaves
+diferentes e inversão de blocos no meio.
 
 ## Tecnologias
 
@@ -15,71 +16,74 @@ vhx_project/
     main.py           # sobe a API e o site
     api/              # rotas HTTP
     model/            # formatos de entrada e saída
-    service/          # regra da cifra (Vigenère, blocos, Hill)
+    service/          # regra da cifra (Vigenère, blocos, derivação da 2ª chave)
   frontend/
     index.html
     css/
     js/
 ```
 
-A chave **não é digitada na tela**. Ela fica fixa no backend: `SOL`.
+As chaves **não são digitadas na tela**. Ficam fixas no backend:
+
+- 1ª chave: `SOL` (alterna com `LOS`)
+- 2ª chave: `TPM`, derivada da primeira avançando cada letra 1 posição
+  (`S→T`, `O→P`, `L→M`), e alterna com `MPT`
 
 ## Fluxo da criptografia
 
 ```text
 TEXTO
  ↓
-Vigenère com chave normal / invertida
+Vigenère 1
  ↓
-Dividir em blocos de 3
+Inverter blocos
  ↓
-Inverter cada bloco
- ↓
-Dividir em pares (acrescentar X se for ímpar)
- ↓
-Hill
+Vigenère 2
  ↓
 TEXTO CIFRADO
 ```
 
 1. Normaliza o texto para `A-Z`.
-2. Monta a chave no tamanho da mensagem: `SOL`, depois `LOS`, depois `SOL`...
-3. Aplica Vigenère: `C = (P + K) mod 26`.
+2. Monta a 1ª chave no tamanho da mensagem: `SOL`, depois `LOS`, depois `SOL`...
+3. Aplica Vigenère 1: `C = (P + K) mod 26`.
 4. Divide em blocos de 3 e inverte cada bloco.
-5. Se o comprimento for ímpar, acrescenta `X`.
-6. Divide em pares e aplica Hill com a matriz:
+5. Monta a 2ª chave: `TPM`, depois `MPT`, depois `TPM`...
+6. Aplica Vigenère 2: de novo `C = (P + K) mod 26`.
+
+Combina-se duas famílias clássicas: a Vigenère é uma
+**substituição** (troca o valor de cada letra) e a inversão de blocos é
+uma **transposição** (muda a ordem das letras, sem mudar o valor delas).
+Como as duas Vigenères usam chaves diferentes, quem aplicar só a Vigenère
+clássica não recupera a palavra original.
+
+Exemplo com `ATAQUE`:
 
 ```text
-[ 3 3 ]
-[ 2 5 ]
+ATAQUE
+1ª chave     SOLLOS
+Vigenère 1 → SHLBIW
+blocos       SHL | BIW
+inversão     LHS | WIB
+2ª chave     TPMMPT
+Vigenère 2 → EWEIXU
+
+Resultado: EWEIXU
 ```
 
-Exemplo com `DADOS`:
-
-```text
-DADOS
-chave SOLLO
-Vigenère → VOOZG
-blocos   → VOO | ZG
-inversão → OOV | GZ
-padding  → OOVGZX
-pares    → OO | VG | ZX
-Hill     → GU | DU | OJ
-
-Resultado: GUDUOJ
-```
-
-A descriptografia faz o caminho inverso: Hill inversa, tira o `X` se existir, desfaz a inversão dos blocos e aplica `P = (C - K) mod 26`.
+A descriptografia faz o caminho inverso: Vigenère 2 inversa com `TPM / MPT`,
+desfaz a inversão dos blocos e aplica a Vigenère 1 inversa com `SOL / LOS`
+(`P = (C - K) mod 26`).
 
 ## Modos do frontend
 
 ### Modo desafio
 
-Mostra só o texto secreto e o resultado. Não revela a chave nem as etapas.
+Mostra só o texto secreto e o resultado. Não revela as chaves nem as etapas.
 
 ### Modo explicação
 
-Mostra a chave `SOL`, a montagem `SOL / LOS`, as contas da Vigenère, a inversão dos blocos e a Hill letra a letra.
+Mostra as chaves `SOL` e `TPM`, a montagem `SOL / LOS` e `TPM / MPT`, as
+contas das duas Vigenères letra a letra e a inversão de cada bloco de 3.
 
 ## Como executar
 
@@ -121,10 +125,6 @@ Exemplo:
 
 ```json
 {
-  "texto": "DADOS"
+  "texto": "ATAQUE"
 }
 ```
-
-## Observação acadêmica
-
-A VHX é uma cifra de demonstração. Não use para proteger dados reais; em sistemas reais, use algoritmos como AES.

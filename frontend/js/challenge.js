@@ -1,7 +1,7 @@
 /**
  * Modo desafio.
  *
- * Mostra só o texto cifrado. A chave e as contas não aparecem nesta tela.
+ * Mostra só o texto cifrado. As chaves e as contas não aparecem nesta tela.
  * O texto original some do campo depois de criptografar, para a apresentação
  * em sala não revelar a mensagem.
  */

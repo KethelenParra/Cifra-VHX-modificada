@@ -1,5 +1,5 @@
 /**
- * Cliente HTTP da API VHX.
+ * Cliente HTTP da API.
  *
  * Todas as chamadas passam por /api. Em caso de erro, o FastAPI devolve
  * { detail: "mensagem" }, que vira uma Exception para a tela tratar.

@@ -4,8 +4,9 @@ Cifra de Vigenère (versão clássica, módulo 26).
 Criptografia:  C = (P + K) mod 26
 Descriptografia: P = (C - K) mod 26
 
-P é a letra do texto, K é a letra correspondente da chave montada
-(SOL / LOS). Cada letra gera uma linha de conta para a tela.
+P é a letra do texto, K é a letra correspondente da chave montada.
+Na Cifra Criptografada isso vale para as duas etapas: SOL / LOS e depois TPM / MPT.
+Cada letra gera uma linha de conta para a tela.
 """
 
 from backend.model.esquemas import ContaLetra
