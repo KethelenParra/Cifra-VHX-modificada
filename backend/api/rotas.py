@@ -1,7 +1,7 @@
 """
-Rotas HTTP da Cifra VHX.
+Rotas HTTP da Cifra VHX Dupla.
 
-O frontend envia o texto; a chave SOL permanece só no backend.
+O frontend envia o texto; as chaves SOL e TPM permanecem só no backend.
 Erros de validação da cifra viram HTTP 400.
 """
 
@@ -24,7 +24,7 @@ def _executar(funcao):
 @rotas.get("/health")
 def saude():
     """Confirma que a API está no ar (útil para teste rápido)."""
-    return {"status": "ok", "cifra": "VHX"}
+    return {"status": "ok", "cifra": "VHX Dupla"}
 
 
 @rotas.post("/encrypt", response_model=RespostaCifra)

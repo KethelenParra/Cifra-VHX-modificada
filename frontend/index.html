@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Cifra VHX — interface do trabalho acadêmico.
-  Dois modos: desafio (sem revelar a chave) e explicação (passos e contas).
+  Cifra VHX Dupla — interface do trabalho acadêmico.
+  Dois modos: desafio (sem revelar as chaves) e explicação (passos e contas).
   O JavaScript está em módulos em js/; o estilo em css/styles.css.
 -->
 <html lang="pt-BR" data-theme="light">
@@ -99,14 +99,14 @@
       </p>
     </section>
 
-    <!-- MODO EXPLICAÇÃO: chave SOL, fórmulas e tabelas de cálculo -->
+    <!-- MODO EXPLICAÇÃO: chaves SOL e TPM, fórmulas e tabelas de cálculo -->
     <section id="explainMode" class="mode-section hidden">
       <div class="section-heading">
         <div>
           <h2>Modo explicação</h2>
           <p class="section-description">
-            A VHX combina Vigenère com chave SOL / LOS e inversão de blocos de 3
-            letras. A chave é fixa: SOL.
+            A VHX Dupla aplica duas Vigenères com chaves diferentes e, no meio,
+            inverte blocos de 3 letras. A 1ª chave é SOL; a 2ª deriva dela: TPM.
           </p>
         </div>
       </div>
@@ -116,10 +116,11 @@
           <h3>Entrada</h3>
 
           <label for="explainPlain">Texto</label>
-          <input id="explainPlain" type="text" placeholder="Ex.: DADOS" />
+          <input id="explainPlain" type="text" placeholder="Ex.: ATAQUE" />
 
           <div class="formula-card">
-            <p><strong>Chave fixa:</strong> SOL (alterna com LOS)</p>
+            <p><strong>1ª chave:</strong> SOL (alterna com LOS)</p>
+            <p><strong>2ª chave:</strong> TPM (SOL avançada 1 posição; alterna com MPT)</p>
             <p><strong>Vigenère:</strong> C = (P + K) mod 26</p>
             <p>A = 0, B = 1, …, Z = 25</p>
           </div>
@@ -135,9 +136,10 @@
           <h3>Ordem das operações</h3>
           <ol class="flow">
             <li>Texto</li>
-            <li>Vigenère com chave normal / invertida</li>
+            <li>Vigenère 1 com SOL / LOS</li>
             <li>Dividir em blocos de 3</li>
             <li>Inverter cada bloco</li>
+            <li>Vigenère 2 com TPM / MPT</li>
             <li>Texto cifrado</li>
           </ol>
         </article>
@@ -148,7 +150,7 @@
           <div class="panel-title-row">
             <div>
               <h3>Criptografia</h3>
-              <p class="section-description">Passos gerais e o cálculo de cada etapa.</p>
+              <p class="section-description">Cada etapa, na ordem, com a conta logo abaixo.</p>
             </div>
             <div class="result-chip">
               <span>Resultado</span>
@@ -157,14 +159,13 @@
           </div>
           <p id="encryptAlphabet" class="alphabet-map"></p>
           <div id="encryptSteps" class="steps-list"></div>
-          <div id="encryptCalcs" class="calcs-list"></div>
         </article>
 
         <article class="panel">
           <div class="panel-title-row">
             <div>
               <h3>Descriptografia</h3>
-              <p class="section-description">Caminho inverso: blocos e Vigenère.</p>
+              <p class="section-description">Caminho inverso: Vigenère 2, blocos e Vigenère 1.</p>
             </div>
             <button class="primary-btn" id="explainDecryptBtn" type="button">
               Mostrar descriptografia
@@ -181,37 +182,44 @@
               <strong id="explainRecoveredResult">—</strong>
             </div>
             <div id="decryptSteps" class="steps-list"></div>
-            <div id="decryptCalcs" class="calcs-list"></div>
           </div>
         </article>
       </section>
 
       <section class="panel theory-panel">
-        <h3>O que a VHX junta</h3>
+        <h3>O que a VHX Dupla junta</h3>
 
         <div class="comparison-grid">
           <div>
-            <h4>Vigenère (substituição)</h4>
+            <h4>Vigenère 1</h4>
             <ul>
               <li>A chave fixa SOL se alterna com LOS a cada 3 letras.</li>
               <li>Cada letra soma o valor da letra da chave, módulo 26.</li>
-              <li>Exemplo: DADOS usa a chave SOLLO.</li>
+              <li>Exemplo: ATAQUE usa a chave SOLLOS.</li>
             </ul>
           </div>
 
           <div>
-            <h4>Inversão de blocos (transposição)</h4>
+            <h4>Inversão de blocos</h4>
             <ul>
-              <li>O texto já cifrado pela Vigenère é cortado em blocos de 3 letras.</li>
+              <li>O texto da 1ª Vigenère é cortado em blocos de 3 letras.</li>
               <li>Cada bloco é escrito de trás para frente.</li>
-              <li>Muda a ordem das letras, sem mudar o valor delas — complementa a Vigenère.</li>
+              <li>Muda a ordem das letras, sem mudar o valor delas.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Vigenère 2</h4>
+            <ul>
+              <li>A 2ª chave deriva da 1ª: cada letra avança 1 posição (SOL → TPM).</li>
+              <li>TPM se alterna com MPT a cada 3 letras.</li>
+              <li>Quem tentar só a Vigenère clássica não recupera a palavra original.</li>
             </ul>
           </div>
         </div>
 
         <p class="academic-note">
-          A VHX foi feita para demonstração em sala. Para proteger dados reais,
-          use algoritmos modernos, como AES.
+          A VHX Dupla foi feita para demonstração em sala.
         </p>
       </section>
     </section>

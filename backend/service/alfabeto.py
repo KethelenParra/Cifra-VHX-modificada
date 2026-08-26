@@ -22,6 +22,15 @@ def letra_do_indice(numero: int) -> str:
     return chr((numero % 26) + ord("A"))
 
 
+def avancar_letras(texto: str, deslocamento: int = 1) -> str:
+    """
+    Avança cada letra N posições no alfabeto (módulo 26).
+
+    Usado para derivar a 2ª chave da VHX Dupla: SOL + 1 → TPM.
+    """
+    return "".join(letra_do_indice(indice(letra) + deslocamento) for letra in texto)
+
+
 def so_letras(texto: str) -> str:
     """
     Deixa apenas A–Z.

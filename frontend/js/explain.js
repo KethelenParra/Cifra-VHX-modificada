@@ -1,23 +1,25 @@
 /**
  * Modo explicação.
  *
- * Mostra a chave SOL, as etapas e as contas letra a letra.
+ * Mostra as chaves SOL e TPM, as etapas e as contas letra a letra.
  * A descriptografia só é habilitada depois de uma criptografia nesta sessão.
  */
 
 import { apiRequest } from "./api.js";
-import { clearMessage, renderCalculations, renderSteps, setMessage, validateText } from "./dom.js";
+import { clearMessage, renderSteps, setMessage, validateText } from "./dom.js";
 import { withProcessOverlay } from "./overlay.js";
 
 const ENCRYPT_PROCESS = [
   "Normalizando o texto",
-  "Aplicando Vigenère com SOL / LOS",
+  "Aplicando Vigenère 1 com SOL / LOS",
   "Invertendo blocos de 3 letras",
+  "Aplicando Vigenère 2 com TPM / MPT",
 ];
 
 const DECRYPT_PROCESS = [
+  "Desfazendo a Vigenère 2 (TPM / MPT)",
   "Desinvertendo os blocos",
-  "Aplicando Vigenère inversa",
+  "Desfazendo a Vigenère 1 (SOL / LOS)",
   "Recompondo o texto original",
 ];
 
@@ -35,8 +37,6 @@ export function initExplain() {
   const explainRecoveredResult = document.getElementById("explainRecoveredResult");
   const encryptSteps = document.getElementById("encryptSteps");
   const decryptSteps = document.getElementById("decryptSteps");
-  const encryptCalcs = document.getElementById("encryptCalcs");
-  const decryptCalcs = document.getElementById("decryptCalcs");
   const encryptAlphabet = document.getElementById("encryptAlphabet");
   const decryptPlaceholder = document.getElementById("decryptPlaceholder");
   const decryptContent = document.getElementById("decryptContent");
@@ -67,8 +67,7 @@ export function initExplain() {
       state.cipher = data.texto_saida;
       explainCipherResult.textContent = data.texto_saida;
       encryptAlphabet.textContent = `Alfabeto numérico: ${data.alfabeto}`;
-      renderSteps(encryptSteps, data.passos);
-      renderCalculations(encryptCalcs, data);
+      renderSteps(encryptSteps, data.passos, data);
       explainResults.classList.remove("hidden");
       explainResults.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch (error) {
@@ -95,8 +94,7 @@ export function initExplain() {
       });
 
       explainRecoveredResult.textContent = data.texto_saida;
-      renderSteps(decryptSteps, data.passos);
-      renderCalculations(decryptCalcs, data);
+      renderSteps(decryptSteps, data.passos, data);
       decryptPlaceholder.classList.add("hidden");
       decryptContent.classList.remove("hidden");
     } catch (error) {

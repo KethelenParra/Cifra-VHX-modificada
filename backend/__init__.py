@@ -1,6 +1,7 @@
 """
-Backend da Cifra VHX.
+Backend da Cifra VHX Dupla.
 
 Este pacote reúne a API (FastAPI), os modelos de dados e o serviço
-que executa a cifra: Vigenère com chave alternada e inversão de blocos.
+que executa a cifra: duas Vigenères (SOL/LOS e TPM/MPT) com inversão
+de blocos no meio.
 """

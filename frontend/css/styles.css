@@ -1,5 +1,5 @@
 /*
-  Estilos da Cifra VHX.
+  Estilos da Cifra VHX Dupla.
   Cores vêm de variáveis CSS (--bg, --ink, --accent…) para o tema
   claro e o tema escuro usarem o mesmo layout.
 */
@@ -463,25 +463,19 @@ button:disabled {
   line-height: 1.7;
 }
 
-.steps-list,
-.calcs-list {
+.steps-list {
   display: grid;
   gap: 12px;
-}
-
-.steps-list {
   margin-bottom: 8px;
 }
 
-.step-card,
-.calc-block {
+.step-card {
   border: 1px solid var(--line);
   background: var(--bg);
   padding: 14px;
 }
 
-.step-card h4,
-.calc-block h4 {
+.step-card h4 {
   margin-bottom: 6px;
   color: var(--ink);
 }
@@ -499,6 +493,12 @@ button:disabled {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   letter-spacing: 0.04em;
   word-break: break-word;
+}
+
+.step-card .calc-block {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
 }
 
 .calc-meta {
@@ -570,7 +570,7 @@ table.calc-table {
 
 .comparison-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -691,6 +691,12 @@ footer {
   border-color: var(--success);
 }
 
+@media (max-width: 1100px) {
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- Layout em telas estreitas ---------- */
 @media (max-width: 800px) {
   .topbar-inner,
@@ -699,8 +705,7 @@ footer {
     flex-direction: column;
   }
 
-  .two-cols,
-  .comparison-grid {
+  .two-cols {
     grid-template-columns: 1fr;
   }
 
